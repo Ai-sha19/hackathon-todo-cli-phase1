@@ -1,0 +1,16 @@
+[project]
+name = "h2-todo"
+version = "0.1.0"
+description = "A simple CLI todo application"
+requires-python = ">=3.13"
+dependencies = []
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.uv]
+dev-dependencies = []

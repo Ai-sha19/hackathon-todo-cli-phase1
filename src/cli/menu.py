@@ -4,8 +4,8 @@ This module provides the main menu loop and handlers for each
 menu option.
 """
 
-from src.models.task import Task, TaskList
-from src.cli.input import (
+from models.task import Task, TaskList
+from cli.input import (
     add_task_prompt,
     get_task_id_prompt,
     get_task_id_for_update,
@@ -15,7 +15,7 @@ from src.cli.input import (
     confirm_action,
     pause_for_user,
 )
-from src.cli.output import (
+from cli.output import (
     display_add_success,
     display_delete_success,
     display_update_success,
@@ -31,11 +31,7 @@ from src.cli.output import (
 
 
 def handle_add_task(tasklist: TaskList) -> None:
-    """Handle adding a new task.
-
-    Args:
-        tasklist: The task list to add to.
-    """
+    """Handle adding a new task."""
     try:
         title, description = add_task_prompt()
         task = tasklist.add_task(title, description)
@@ -45,11 +41,7 @@ def handle_add_task(tasklist: TaskList) -> None:
 
 
 def handle_view_tasks(tasklist: TaskList) -> None:
-    """Handle viewing all tasks.
-
-    Args:
-        tasklist: The task list to view.
-    """
+    """Handle viewing all tasks."""
     tasks = tasklist.list_tasks()
     if not tasks:
         display_empty_list()
@@ -59,11 +51,7 @@ def handle_view_tasks(tasklist: TaskList) -> None:
 
 
 def handle_delete_task(tasklist: TaskList) -> None:
-    """Handle deleting a task.
-
-    Args:
-        tasklist: The task list to delete from.
-    """
+    """Handle deleting a task."""
     task_id = get_task_id_prompt()
     task = tasklist.get_task(task_id)
 
@@ -71,7 +59,6 @@ def handle_delete_task(tasklist: TaskList) -> None:
         display_task_not_found(task_id)
         return
 
-    # Confirm deletion
     if confirm_action(f'Are you sure you want to delete "{task.title}"?'):
         success = tasklist.delete_task(task_id)
         if success:
@@ -79,11 +66,7 @@ def handle_delete_task(tasklist: TaskList) -> None:
 
 
 def handle_mark_complete(tasklist: TaskList) -> None:
-    """Handle marking a task as complete.
-
-    Args:
-        tasklist: The task list to modify.
-    """
+    """Handle marking a task as complete."""
     task_id = get_task_id_for_mark_complete()
     task = tasklist.get_task(task_id)
 
@@ -95,17 +78,12 @@ def handle_mark_complete(tasklist: TaskList) -> None:
         display_already_complete(task)
         return
 
-    # Task is pending, mark it as complete
     updated = tasklist.mark_complete(task_id)
     display_toggle_complete(updated, True)
 
 
 def handle_update_task(tasklist: TaskList) -> None:
-    """Handle updating a task.
-
-    Args:
-        tasklist: The task list to update.
-    """
+    """Handle updating a task."""
     print("\n=== Update Task ===\n")
 
     task_id = get_task_id_for_update()
@@ -118,7 +96,6 @@ def handle_update_task(tasklist: TaskList) -> None:
     print(f'Task found: "{task.title}"')
     print()
 
-    # Get updates
     new_title, new_description = get_update_prompts()
 
     if new_title is None and new_description is None:
@@ -138,11 +115,7 @@ def handle_update_task(tasklist: TaskList) -> None:
 
 
 def main_menu(tasklist: TaskList) -> None:
-    """Run the main menu loop.
-
-    Args:
-        tasklist: The task list to operate on.
-    """
+    """Run the main menu loop."""
     while True:
         display_welcome()
 

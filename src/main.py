@@ -4,8 +4,8 @@ This module provides the main() function and main_loop() that
 initialize and run the todo application.
 """
 
-from src.models.task import TaskList
-from src.cli.menu import main_menu
+from models.task import TaskList
+from cli.menu import main_menu
 
 
 def main_loop() -> None:
